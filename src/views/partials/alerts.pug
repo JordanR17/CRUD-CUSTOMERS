@@ -1,0 +1,4 @@
+if errors 
+    ul.list-unstyled.px-3.mt-4 
+        each error in errors 
+            li.alert.py-1.text-center(class=`alert-${error.type}`) #{error.msg}

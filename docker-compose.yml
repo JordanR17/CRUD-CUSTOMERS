@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0.41
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: customers_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - app_net
+
+  app_instance_1:
+    image: my_app_image  # Se construye la imagen una sola vez
+    build: .
+    container_name: app_3000
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: ""
+      DB_NAME: customers_db
+      SESSION_SECRET: "miSecretMuySecreto"
+    ports:
+      - "3000:3000"
+    networks:
+      - app_net
+
+  app_instance_2:
+    image: my_app_image  # Se reutiliza la misma imagen
+    container_name: app_4000
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PORT: 3000  # Se mantiene en 3000 si la app ya lo maneja internamente
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: ""
+      DB_NAME: customers_db
+      SESSION_SECRET: "miSecretMuySecreto"
+    ports:
+      - "4000:3000"  # Se expone en un puerto distinto externamente
+    networks:
+      - app_net
+
+volumes:
+  db_data:
+
+networks:
+  app_net:

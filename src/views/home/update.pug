@@ -1,0 +1,44 @@
+extends /layout/layout.pug
+block content 
+    section.container.mt-5.pt-5 
+        .row 
+            .col-md-5.mx-md-auto 
+                a.text-decoration-none.text-black-50.d-block.mb-1(href="/")
+                    i.bi.bi-arrow-90deg-left
+                    | Retornar 
+                .card 
+                    h3.text-center.text-white.card-title.bg-primary.m-0.py-2 
+                        i.bi.bi-person 
+                        | Actualizar Cliente
+                    include ../partials/alerts 
+                    .card-body.px-3.pb-3.pt-0 
+                        form( method="POST")
+                            input(type="hidden", name="_csrf" value= csrfToken)
+                            input(type="hidden" name="_method" value ="PUT") 
+                            .input-group.mb-4.mt-3 
+                                span.input-group-text 
+                                    i.bi.bi-person 
+                                input.form-control(type="text" name="name" placeholder="Nombre" value=customer ? customer.name : '')
+
+                            .input-group.mb-3 
+                                span.input-group-text 
+                                    i.bi.bi-person 
+                                input.form-control(type="text" name="lastname" placeholder="Apellido" value=customer ? customer.lastname : '')
+
+                            .input-group.mb-3 
+                                span.input-group-text 
+                                    i.bi.bi-envelope  
+                                input.form-control(type="email" name="email" placeholder="Correo Electronico" value=customer ? customer.email : '')
+                            
+                            .input-group.mb-3 
+                                span.input-group-text 
+                                    i.bi.bi-geo  
+                                input.form-control(type="text" name="address" placeholder="Dirección" value=customer ? customer.address : '')
+
+                            .input-group.mb-3 
+                                span.input-group-text 
+                                    i.bi.bi-phone 
+                                input.form-control(type="tel" name="phone" placeholder="Teléfono" value=customer ? customer.phone  : '')
+
+                            button.btn.btn-priary.w-100.mt-3.mb-3.bg-primary.text-white(type="submit") Actualizar Cliente 
+                            a.btn.btn-danger.w-100(href="/") Cancelar

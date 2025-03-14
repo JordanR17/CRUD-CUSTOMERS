@@ -1,0 +1,6 @@
+if flashes.success 
+    each msg in flashes.success 
+        .alert.alert-success= msg 
+if flashes.error 
+    each msg in flashes.error 
+        .alert.alert-danger= msg 

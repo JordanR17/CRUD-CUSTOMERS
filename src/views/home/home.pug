@@ -1,0 +1,43 @@
+extends /layout/layout.pug
+
+block content
+  section.container
+    h1.text-center.py-5 Listado De Clientes
+    a.btn.btn-primary.mb-3(href="/create")
+      i.bi.bi-plus-circle-dotted.me-2
+      | Crear
+    include ../partials/flash-messages
+    .table-responsive
+      table.table.table-hover.table-striped.table-bordered.align-middle
+        thead.table-dark
+          tr
+            th.p-3 N°
+            th.p-3 Nombre
+            th.p-3 Apellido
+            th.p-3 Email
+            th.p-3 Telefono
+            th.p-3 Direccion
+            th.p-3 Acciones
+        tbody
+          if customers && customers.length > 0
+            each customer, index in customers
+              tr
+                td= index + 1
+                td= customer.name
+                td= customer.lastname
+                td= customer.email
+                td= customer.phone
+                td= customer.address
+                td.d-flex.justify-content-center.gap-1
+                  a.btn.btn-info.btn-sm(href=`/update/${customer.id}`)
+                    i.bi.bi-pencil-square.me-1
+                    | Editar
+                  form(action=`/delete/${customer.id}` method="POST" onsubmit="return confirm('¿Estás seguro de eliminar el cliente?')")
+                    input(type="hidden", name="_csrf" value= csrfToken)
+                    input(type="hidden", name="_method" value="DELETE")
+                    button.btn.btn-danger.btn-sm(type="submit")
+                      i.bi.bi-trash.me-1
+                      | Eliminar
+          else
+            tr
+              td.text-center(colspan="7") No hay clientes registrados.
