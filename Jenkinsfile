@@ -40,8 +40,8 @@ pipeline {
         stage('Levantar aplicación con Docker Compose') {
             steps {
                 script {
-                    sh 'docker-compose down'  // Baja los contenedores anteriores
-                    sh 'docker-compose up -d'  // Usa la imagen existente sin reconstruir
+                    sh 'docker compose down'  // Baja los contenedores anteriores
+                    sh 'docker compose up -d'  // Usa la imagen existente sin reconstruir
                 }
             }
         }
