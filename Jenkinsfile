@@ -4,7 +4,12 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'tu-credencial-de-git', url: 'https://github.com/JordanR17/CRUD-CUSTOMERS.git'
+                url: 'https://github.com/JordanR17/CRUD-CUSTOMERS.git'
+            }
+        }
+        stage('Verify Git') {
+            steps {
+                sh 'git status'
             }
         }
         stage('Deploy') {
