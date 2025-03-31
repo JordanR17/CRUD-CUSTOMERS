@@ -9,7 +9,13 @@ pipeline {
     stages {
         stage('Clonar código') {
             steps {
-                git branch: 'main', url: 'https://github.com/JordanR17/CRUD-CUSTOMERS.git'  
+                checkout([$class: 'GitSCM',
+                    branches: [[name: 'main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/JordanR17/CRUD-CUSTOMERS.git',
+                        credentialsId: 'b4489ade-c5e3-4c09-b315-ba3821d269e9'  
+                    ]]
+                ])
             }
         }
 
@@ -40,7 +46,7 @@ pipeline {
         stage('Levantar aplicación con Docker Compose') {
             steps {
                 script {
-                    sh 'docker compose down'  // Baja los contenedores anteriores
+                    sh 'docker compose down || true'  // Baja los contenedores anteriores (ignora errores)
                     sh 'docker compose up -d'  // Usa la imagen existente sin reconstruir
                 }
             }
